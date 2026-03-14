@@ -916,15 +916,9 @@ box-shadow:0 10px 30px rgba(0,0,0,0.2);
 
 <div class="divider"></div>
 
-<div class="video-grid">
+<div class="video-grid" id="videoGrid"></div>
 
-<iframe src="https://www.youtube.com/embed/VIDEOID1" allowfullscreen></iframe>
-
-<iframe src="https://www.youtube.com/embed/VIDEOID2" allowfullscreen></iframe>
-
-<iframe src="https://www.youtube.com/embed/VIDEOID3" allowfullscreen></iframe>
-
-</div>
+<script async src="https://www.instagram.com/embed.js"></script>
 
 </section>
 
@@ -1181,19 +1175,40 @@ document.getElementById("concertInfo").innerHTML = `
 `;
 
 }
-
 //
 // VIDEOS
 //
 const html = data.videos.map(v=>`
-<iframe src="https://www.youtube.com/embed/${v[1]}" allowfullscreen></iframe>
+<blockquote class="instagram-media"
+data-instgrm-permalink="${v[1]}"
+data-instgrm-version="14"></blockquote>
 `).join("");
 
 document.querySelector(".video-grid").innerHTML = html;
 
+if(window.instgrm){
+window.instgrm.Embeds.process();
+}
+//
+// INSTAGRAM VIDEOS
+//
+const html = data.videos.map(v=>`
+<blockquote class="instagram-media"
+data-instgrm-permalink="${v[1]}"
+data-instgrm-version="14"
+style="width:100%;">
+</blockquote>
+`).join("");
+
+document.getElementById("videoGrid").innerHTML = html;
+
+// Instagram script refresh
+if(window.instgrm){
+window.instgrm.Embeds.process();
 }
 
 loadCMS();
 </script>
+<script async src="https://www.instagram.com/embed.js"></script>
 </body>
 </html>
