@@ -56,13 +56,16 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  padding: 8vh 5% 12vh;
+  padding: 8vh 5% 18vh;
   margin-top: 0;
   text-align: center;
 }
 
 .landing-top {
-  /* 上エリア：何もしなくてもOK、自然に上に来る */
+  display: flex;
+  flex-direction: column;
+  gap: 0;  /* 子要素の間隔をゼロに */
+
 }
 
 .landing-bottom {
@@ -73,8 +76,9 @@
   font-size: 0.8rem;
   letter-spacing: 0.35em;
   color: var(--accent2);
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   transform: translateY(-10px);
+
 }
 
 
@@ -84,7 +88,7 @@
   color: white;
   font-weight: 300;
   letter-spacing: 0.08em;
-  line-height: 1.5;
+  line-height: 1.2;
 }
 
 .landing-sub {
@@ -93,6 +97,7 @@
   font-family: 'Noto Serif JP', serif;
   color: var(--accent2);
   letter-spacing: 0.12em;
+  margin-top: 0.3rem;  /* ← タイトルとの間隔を詰める */
 }
 
 .landing-tagline {
