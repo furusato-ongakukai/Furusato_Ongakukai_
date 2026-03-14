@@ -707,7 +707,6 @@ box-shadow:0 10px 30px rgba(0,0,0,0.2);
   <div class="landing-top">
     <div class="landing-en">FURUSATO ONGAKUKAI · YAMAGUCHI</div>
     <h1 class="landing-title">
-      <h1 class="landing-title">
         <svg viewBox="0 0 800 200" class="title-arch">
           <defs>
             <path id="titleCurve" d="M100,150 Q400,40 700,150" />
@@ -718,7 +717,6 @@ box-shadow:0 10px 30px rgba(0,0,0,0.2);
             </textPath>
           </text>
         </svg>
-    </h1>
     </h1>
     <div class="landing-sub">山口県出身アーティストによる音楽会</div>
   </div>
@@ -886,11 +884,14 @@ box-shadow:0 10px 30px rgba(0,0,0,0.2);
     </div>
     <div class="next-info">
       <span class="next-badge">NEXT CONCERT</span>
-      <div class="next-concert-title">第◯回 ふるさと音楽会 定期演奏会</div>
-      <div class="next-concert-venue">
-        📍 会場：◯◯市文化センター 大ホール<br>
-        🕐 開演：18:00（開場 17:30）<br>
-        🎟 入場無料
+      <div class="next-concert-title" id="concertTitle">
+      第◯回 ふるさと音楽会 定期演奏会
+      </div>
+
+      <div class="next-concert-venue" id="concertInfo">
+      📍 会場：◯◯市文化センター 大ホール<br>
+      🕐 開演：18:00（開場 17:30）<br>
+      🎟 入場無料
       </div>
     </div>
   </div>
@@ -985,7 +986,7 @@ box-shadow:0 10px 30px rgba(0,0,0,0.2);
 </footer>
 
 <!-- ============ GSS PANEL ============ -->
-<div id="gssPanel" style="position:fixed;bottom:1.5rem;right:1.5rem;background:var(--primary);color:white;padding:1rem 1.2rem;font-size:0.72rem;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,0.3);z-index:500;border-left:3px solid var(--accent);display:none;">
+
   <div style="font-weight:500;margin-bottom:0.5rem;color:var(--accent2)">📊 GSS設定パネル</div>
   <div style="line-height:1.7;color:rgba(255,255,255,0.8)">
     スプレッドシートIDを入力すると<br>コンテンツが自動更新されます。<br>
@@ -994,7 +995,7 @@ box-shadow:0 10px 30px rgba(0,0,0,0.2);
   </div>
   <button onclick="document.getElementById('gssPanel').style.display='none'" style="position:absolute;top:0.4rem;right:0.6rem;background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;font-size:1rem;">×</button>
 </div>
-<button id="gssToggle" onclick="document.getElementById('gssPanel').style.display='block'" style="position:fixed;bottom:1.5rem;right:1.5rem;background:var(--primary);border:1px solid var(--accent);color:var(--accent2);padding:0.6rem 1rem;font-size:0.72rem;cursor:pointer;z-index:499;letter-spacing:0.1em;">📊 GSS</button>
+
 
 <script>
 // ============ MEMBERS DATA (from Wix site) ============
@@ -1092,7 +1093,9 @@ function goSlide(n) {
   slides[currentSlide].classList.add('active');
   dots[currentSlide].classList.add('active');
 }
-setInterval(() => goSlide((currentSlide + 1) % slides.length), 6000);
+if(slides.length){
+  setInterval(() => goSlide((currentSlide + 1) % slides.length), 6000);
+}
 
 // ============ NAV SHOW ON SCROLL ============
 const nav = document.getElementById('main-nav');
@@ -1104,31 +1107,6 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// ============ GSS LOADER ============
-async function loadGSS() {
-  const id = document.getElementById('gssInput').value.trim();
-  if(!id) { alert('スプレッドシートIDを入力してください'); return; }
-  const url = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&sheet=members`;
-  try {
-    const res = await fetch(url);
-    const text = await res.text();
-    const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/)[1]);
-    const rows = json.table.rows;
-    const gssMembers = rows.map(r => ({
-      name: r.c[0]?.v || '',
-      instrument: (r.c[1]?.v || '').toLowerCase(),
-      hometown: r.c[2]?.v || '',
-      profile: r.c[3]?.v || '',
-      img: r.c[4]?.v || ''
-    }));
-    membersData.length = 0;
-    membersData.push(...gssMembers);
-    renderMembers('all');
-    alert('メンバー情報を読み込みました！');
-  } catch(e) {
-    alert('読み込みに失敗しました。スプレッドシートが公開設定になっているか確認してください。\n' + e.message);
-  }
-}
 
 // Hamburger menu
 document.getElementById('hamburger').addEventListener('click', function() {
@@ -1140,73 +1118,24 @@ document.getElementById('hamburger').addEventListener('click', function() {
   }
 });
 
-async function loadConcerts(spreadsheetId){
 
-const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:json&sheet=concerts`;
 
-const res = await fetch(url);
-const text = await res.text();
 
-const json = JSON.parse(
-text.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/)[1]
-);
 
-const row = json.table.rows[0].c;
 
-const title = row[0]?.v;
-const date = row[1]?.v;
-const venue = row[2]?.v;
-const open = row[3]?.v;
-const image = row[4]?.v;
+const CMS_URL = "https://script.google.com/macros/s/AKfycbxLP3JZpcW7ON7ay5QO2tzoZmI1Vmi9CsqcUeBnf6rSonl6r2ZqP6gJQTglm5abJmnk/exec";
 
-const slide = document.getElementById("nextConcertSlide");
+async function loadCMS(){
 
-slide.innerHTML = `
-<div class="carousel-image" style="background-image:url('${image}')"></div>
+const res = await fetch(CMS_URL);
+const data = await res.json();
 
-<div class="carousel-body">
-<div class="carousel-tag">Next Concert</div>
-
-<div class="carousel-title">${title}</div>
-
-<div class="carousel-desc">
-${date}<br>
-${venue}<br>
-開演 ${open}
-</div>
-
-<a href="#concerts" class="carousel-more">詳細を見る →</a>
-
-</div>
-`;
-
-}
-
-// ページ読み込み時
-const SPREADSHEET_ID = "1qIddfcOGwOh71H4eK8hWhdTTnOTNcedlOKb2aRz6_fc";
-
-loadConcerts(SPREADSHEET_ID);
-
-// ===== UNIVERSAL GSS CMS =====
-async function loadSheet(id, sheet){
-  const url = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&sheet=${sheet}`;
-  const res = await fetch(url);
-  const txt = await res.text();
-  const json = JSON.parse(txt.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\)/)[1]);
-  return json.table.rows.map(r => r.c.map(c => c?.v || ""));
-}
-
-// ===== CMS INITIALIZER =====
-async function initCMS(){
-
-const id = document.getElementById("gssInput").value.trim();
-if(!id) return;
-
-const members = await loadSheet(id,"members");
-const concerts = await loadSheet(id,"concerts");
-
+//
+// MEMBERS
+//
 membersData.length = 0;
-members.forEach(r=>{
+
+data.members.forEach(r=>{
 membersData.push({
 name:r[0],
 instrument:r[1].toLowerCase(),
@@ -1218,33 +1147,53 @@ img:r[4]
 
 renderMembers("all");
 
-if(concerts.length){
-const c = concerts[0];
+//
+// CONCERT
+//
+if(data.concerts.length){
+
+const c = data.concerts[0];
+
 document.getElementById("nextConcertSlide").innerHTML = `
-<div class="carousel-image" style="background-image:url('${c[4]}')"></div>
+<div class="carousel-image"
+style="background-image:url('${c[4]}');
+background-size:cover;
+background-position:center;">
+</div>
 <div class="carousel-body">
 <div class="carousel-tag">Next Concert</div>
 <div class="carousel-title">${c[0]}</div>
-<div class="carousel-desc">${c[1]}<br>${c[2]}<br>開演 ${c[3]}</div>
+<div class="carousel-desc">
+${c[1]}<br>
+${c[2]}<br>
+開演 ${c[3]}
+</div>
 <a href="#concerts" class="carousel-more">詳細を見る →</a>
-</div>`;
-}
+</div>
+`;
+
+document.getElementById("concertTitle").innerText = c[0];
+
+document.getElementById("concertInfo").innerHTML = `
+📍 会場：${c[2]}<br>
+🕐 開演：${c[3]}<br>
+🎟 入場無料
+`;
 
 }
 
-document.querySelector("#gssPanel button").onclick = initCMS;
-
-async function loadVideos(id){
-
-const rows = await loadSheet(id,"videos");
-
-const html = rows.map(v=>`
+//
+// VIDEOS
+//
+const html = data.videos.map(v=>`
 <iframe src="https://www.youtube.com/embed/${v[1]}" allowfullscreen></iframe>
 `).join("");
 
 document.querySelector(".video-grid").innerHTML = html;
 
 }
+
+loadCMS();
 </script>
 </body>
 </html>
