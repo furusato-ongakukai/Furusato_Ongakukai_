@@ -591,7 +591,7 @@
   .title-arch{
     width:100%;
     max-width:760px;
-    transform: translateY(70); 
+    transform: translateY(70px); 
   }
 
   .title-arch text{
@@ -1164,12 +1164,15 @@ style="width:100%;">
 
 document.getElementById("videoGrid").innerHTML = html;
 
-setTimeout(()=>{
-  if(window.instgrm){
+if(window.instgrm){
   window.instgrm.Embeds.process();
-  }
-},
-300);
+}else{
+  setTimeout(()=>{
+    if(window.instgrm){
+      window.instgrm.Embeds.process();
+    }
+  },800);
+}
 }
 window.addEventListener("DOMContentLoaded", loadCMS);
 
