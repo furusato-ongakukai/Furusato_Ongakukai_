@@ -1047,10 +1047,8 @@ goSlide((currentSlide + 1) % slides.length);
 // ============ NAV SHOW ON SCROLL ============
 const nav = document.getElementById('main-nav');
 window.addEventListener('scroll', () => {
-  if(window.scrollY > window.innerHeight * 0.4) {
+  if(window.scrollY > 200) {
     nav.classList.add('visible');
-  } else {
-    nav.classList.remove('visible');
   }
 });
 
