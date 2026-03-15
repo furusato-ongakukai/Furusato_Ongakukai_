@@ -447,24 +447,35 @@
   border-left:3px solid var(--accent);
 }
   .next-month{
-  font-family:'Cormorant Garamond',serif;
-  font-size:0.9rem;
-  letter-spacing:0.25em;
-  color:var(--accent2);
-  margin-bottom:4px;
+font-family:'Cormorant Garamond',serif;
+font-size:0.9rem;
+letter-spacing:0.25em;
+color:var(--accent2);
+margin-bottom:6px;
 }
-  .next-day{
-  font-family:'Cormorant Garamond',serif;
-  font-size:2.6rem;
-  font-weight:300;
-  line-height:1;
-  color:white;
+
+.next-day{
+font-family:'Cormorant Garamond',serif;
+font-size:2.2rem;
+font-weight:400;
+letter-spacing:0.05em;
+line-height:1;
+color:white;
 }
-  .next-year{
-  font-size:0.65rem;
-  color:rgba(255,255,255,0.55);
-  letter-spacing:0.15em;
-  margin-top:6px;
+
+.next-year{
+font-family:'Cormorant Garamond',serif;
+font-size:0.9rem;
+color:rgba(255,255,255,0.65);
+letter-spacing:0.15em;
+margin-top:6px;
+}
+  .next-week{
+font-family:'Cormorant Garamond',serif;
+font-size:0.75rem;
+letter-spacing:0.3em;
+color:var(--accent);
+margin-top:6px;
 }
   .next-info { flex: 1; }
   .next-badge {
@@ -917,9 +928,10 @@ max-width:520px !important;
 
   <div class="next-concert">
     <div class="next-date-block">
-      <div class="next-month">2025</div>
-      <div class="next-day">--</div>
-      <div class="next-year">次回公演日程調整中</div>
+      <div class="next-month"></div>
+      <div class="next-day"></div>
+      <div class="next-week" id="nextWeek"></div>
+      <div class="next-year"></div>
     </div>
     <div class="next-info">
       <span class="next-badge">NEXT CONCERT</span>
@@ -1226,7 +1238,7 @@ let upcoming = data.concerts
   title: c[0],
   date: new Date(c[1]),
   venue: c[2],
-  time: c[3]
+  time: c[3] || ""
 }))
 .filter(c => c.date >= today)
 .sort((a,b)=> a.date - b.date)[0];
@@ -1234,7 +1246,10 @@ let upcoming = data.concerts
 
 // 未来公演が無い場合 → 一番新しい公演を表示
 if(!upcoming){
-
+document.querySelector(".next-month").innerText = "";
+document.querySelector(".next-day").innerText = "--";
+document.querySelector(".next-week").innerText = "";
+document.querySelector(".next-year").innerText = "次回公演日程調整中";
 upcoming = data.concerts
 .map(c => ({
   title: c[0],
@@ -1250,22 +1265,25 @@ upcoming = data.concerts
 if(upcoming){
 
 const d = upcoming.date;
+const week = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+const weekday = week[d.getDay()];
 
+document.getElementById("nextWeek").innerText = weekday;
 const year = d.getFullYear();
 const month = d.getMonth() + 1;
 const day = d.getDate();
 
-document.querySelector(".next-month").innerText =
-year;
-
-document.querySelector(".next-day").innerText =
-month + "." + day;
+document.querySelector(".next-month").innerText = year;
+document.querySelector(".next-day").innerText = month + "." + day;
+document.querySelector(".next-year").innerText = "";
 
 let displayTime = upcoming.time;
 
-// GASからISO形式で来た場合の保険
-if(typeof displayTime === "string" && displayTime.includes("T")){
-displayTime = displayTime.slice(11,16);
+if(displayTime instanceof Date){
+displayTime = displayTime.toLocaleTimeString("ja-JP",{
+hour:"2-digit",
+minute:"2-digit"
+});
 }
 
 document.getElementById("concertTitle").innerText =
