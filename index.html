@@ -1195,13 +1195,13 @@ window.concertData = data.concerts;
 // MEMBERS
 //
 if(data.members){
-  membersData.length = 0;
-}
+
+membersData.length = 0;
 
 data.members.forEach(r=>{
 membersData.push({
 name:r[0],
-instrument:r[1].toLowerCase(),
+instrument:(r[1]||"").toLowerCase(),
 hometown:r[2],
 profile:r[3],
 img:r[4]
@@ -1209,6 +1209,9 @@ img:r[4]
 });
 
 renderMembers("all");
+
+}
+
 
 //
 // CONCERT
@@ -1273,6 +1276,8 @@ document.getElementById("concertInfo").innerHTML = `
 🕐 開演：${displayTime}<br>
 🎟 入場無料
 `;
+
+}
 
 }
 //
