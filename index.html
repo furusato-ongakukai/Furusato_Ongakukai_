@@ -320,17 +320,60 @@
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.5rem; max-width: 1200px; margin: 0 auto;
   }
-  .activity-card {
-    background: var(--white);
-    padding: 2rem 1.5rem;
-    border-top: 3px solid var(--accent);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
+  .activity-card{
+    opacity:0.18;
+filter:contrast(1.1) saturate(0.9);
+  position:relative;
+  overflow:hidden;
+  color:white;
+}
+
+.activity-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0.25;
+  z-index:0;
+  transition: transform 0.6s ease;
+}
+.activity-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.25);
+  z-index:0;
+}
+
+.activity-card:hover::before{
+  transform: scale(1.1);
+}
+
+.activity-card > *{
+  position:relative;
+  z-index:1;
+}
   .activity-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 32px rgba(0,0,0,0.12);
   }
+
+.activity-concert::before{
+  background-image:url("images/teiki_button.jpg");
+}
+
+.activity-street::before{
+  background-image:url("images/street.jpg");
+}
+
+.activity-school::before{
+  background-image:url("images/school.jpg");
+}
+
+.activity-lesson::before{
+  background-image:url("images/lesson.jpg");
+}
   .activity-icon {
     font-size: 2rem; margin-bottom: 1rem;
   }
@@ -771,26 +814,29 @@ max-width:520px !important;
 
   <!-- Activities -->
   <div class="activities-grid" style="margin-bottom:4rem;">
-    <div class="activity-card">
-      <div class="activity-icon">🎼</div>
-      <div class="activity-name">定期公演</div>
-      <div class="activity-desc">室内楽・吹奏楽・ジャズなど幅広いジャンルの定期演奏会を山口県各地で毎年開催。</div>
-    </div>
-    <div class="activity-card">
-      <div class="activity-icon">🎵</div>
-      <div class="activity-name">まちかどコンサート</div>
-      <div class="activity-desc">ショッピングモールや駅前広場など身近な場所でのミニコンサートを定期的に実施。</div>
-    </div>
-    <div class="activity-card">
-      <div class="activity-icon">🏫</div>
-      <div class="activity-name">音楽鑑賞教室</div>
-      <div class="activity-desc">県内の小中学校を訪れ、子どもたちに生の音楽を届ける音楽鑑賞教室を開催。</div>
-    </div>
-    <div class="activity-card">
-      <div class="activity-icon">🎓</div>
-      <div class="activity-name">音楽教育・レッスン</div>
-      <div class="activity-desc">初心者講習会から合奏・アンサンブル・個人レッスンまで、様々な形態で音楽教育を提供。</div>
-    </div>
+    <div class="activity-card activity-concert">
+  <div class="activity-icon">🎼</div>
+  <div class="activity-name">定期公演</div>
+  <div class="activity-desc">...</div>
+</div>
+
+<div class="activity-card activity-street">
+  <div class="activity-icon">🎵</div>
+  <div class="activity-name">まちかどコンサート</div>
+  <div class="activity-desc">...</div>
+</div>
+
+<div class="activity-card activity-school">
+  <div class="activity-icon">🏫</div>
+  <div class="activity-name">音楽鑑賞教室</div>
+  <div class="activity-desc">...</div>
+</div>
+
+<div class="activity-card activity-lesson">
+  <div class="activity-icon">🎓</div>
+  <div class="activity-name">音楽教育・レッスン</div>
+  <div class="activity-desc">...</div>
+</div>
   </div>
 
   <div class="about-grid">
