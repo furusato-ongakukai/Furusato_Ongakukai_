@@ -1304,11 +1304,33 @@ document.getElementById("concertInfo").innerHTML = `
 // CALENDAR AUTO GENERATE
 //
 
+const months = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+const dayNames = ["日","月","火","水","木","金","土"];
+
+const calGrid = document.getElementById("calendarGrid");
+
+const today = new Date();
+
+const futureConcerts = data.concerts
+.filter(c => new Date(c[1]) >= today)
+.sort((a,b)=> new Date(a[1]) - new Date(b[1]));
+
+const year = futureConcerts.length
+? new Date(futureConcerts[0][1]).getFullYear()
+: new Date(data.concerts[data.concerts.length-1][1]).getFullYear();
+
+document.querySelector(".calendar-header").innerText =
+year + "年 公演カレンダー";
+
+
 const concertDates = {};
 
 data.concerts.forEach((c,index)=>{
 
 const d = new Date(c[1]);
+
+if(d.getFullYear() !== year) return;
+
 const month = d.getMonth()+1;
 const day = d.getDate();
 
@@ -1324,15 +1346,6 @@ index:index
 });
 
 
-const months = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
-const dayNames = ["日","月","火","水","木","金","土"];
-
-const calGrid = document.getElementById("calendarGrid");
-
-const years = data.concerts.map(c=> new Date(c[1]).getFullYear());
-const year = Math.max(...years);
-document.querySelector(".calendar-header").innerText =
-year + "年 公演カレンダー";
 calGrid.innerHTML = months.map((m,i)=>{
 
 const mo = i + 1;
