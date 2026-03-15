@@ -759,45 +759,8 @@ max-width:520px !important;
 
 <!-- ============ HOME ============ -->
 <section id="home">
-  <div class="hero-carousel" id="heroCarousel">
 
-    <!-- Slide A: 次の公演 -->
-    <div class="carousel-slide active" id="nextConcertSlide">
-      <div class="carousel-image" style="background-image:linear-gradient(to right, rgba(15,30,20,0.3), rgba(15,30,20,0.7)), url('IMG_1408.JPG'); background-size:cover; background-position:center;"></div>
-      <div class="carousel-body">
-        <div class="carousel-tag">Next Concert</div>
-        <div class="carousel-title">第◯回 ふるさと音楽会<br>定期演奏会</div>
-        <div class="carousel-desc">
-          2025年◯月◯日（◯）<br>
-          ◯◯市文化センター 大ホール<br>
-          開演 18:00 / 開場 17:30<br>
-          入場無料・事前申込不要
-        </div>
-        <a href="#concerts" class="carousel-more">詳細を見る →</a>
-      </div>
-    </div>
-
-    <!-- Slide B: クラウドファンディング -->
-    <div class="carousel-slide">
-      <div class="carousel-image" style="background-image:linear-gradient(to right, rgba(15,30,20,0.2), rgba(15,30,20,0.65)), url('IMG_1538.JPG'); background-size:cover; background-position:center top;"></div>
-      <div class="carousel-body">
-        <div class="carousel-tag">Crowdfunding</div>
-        <div class="carousel-title">クラウドファンディング<br>実施中！</div>
-        <div class="carousel-desc">
-          山口の音楽文化をもっと盛んに。<br>
-          皆様のご支援がふるさと音楽会の<br>
-          活動を支えています。<br>
-          ぜひご支援・応援をお願いします。
-        </div>
-        <a href="https://camp-fire.jp/projects/913157/view?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAQiQYJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAachKwMp8BcpCvnUk3lHrs3WVPAkhIddpQbgzDPyV6wd5HwbdP6sRvJ6EqbODQ_aem_LIZmk1hp6hQ8Q3XPNF56dQ" class="carousel-more">支援する →</a>
-      </div>
-    </div>
-
-    <div class="carousel-dots" id="carouselDots">
-      <div class="carousel-dot active" onclick="goSlide(0)"></div>
-      <div class="carousel-dot" onclick="goSlide(1)"></div>
-    </div>
-  </div>
+  <div class="hero-carousel" id="heroCarousel"></div>
 
 
 <!-- ============ ABOUT ============ -->
@@ -1058,15 +1021,28 @@ let currentSlide = 0;
 const slides = document.querySelectorAll('.carousel-slide');
 const dots = document.querySelectorAll('.carousel-dot');
 function goSlide(n) {
-  slides[currentSlide].classList.remove('active');
-  dots[currentSlide].classList.remove('active');
-  currentSlide = n;
-  slides[currentSlide].classList.add('active');
-  dots[currentSlide].classList.add('active');
+
+const slides = document.querySelectorAll('.carousel-slide');
+const dots = document.querySelectorAll('.carousel-dot');
+
+slides[currentSlide].classList.remove('active');
+dots[currentSlide].classList.remove('active');
+
+currentSlide = n;
+
+slides[currentSlide].classList.add('active');
+dots[currentSlide].classList.add('active');
+
 }
-if(slides.length){
-  setInterval(() => goSlide((currentSlide + 1) % slides.length), 6000);
-}
+setInterval(() => {
+
+const slides = document.querySelectorAll('.carousel-slide');
+
+if(!slides.length) return;
+
+goSlide((currentSlide + 1) % slides.length);
+
+},6000);
 
 // ============ NAV SHOW ON SCROLL ============
 const nav = document.getElementById('main-nav');
@@ -1173,6 +1149,44 @@ if(window.instgrm){
     }
   },800);
 }
+
+//
+// HERO
+//
+const heroHTML = data.hero.map((h,i)=>`
+<div class="carousel-slide ${i===0?'active':''}">
+  <div class="carousel-image"
+    style="background-image:
+    linear-gradient(to right, rgba(15,30,20,0.3), rgba(15,30,20,0.7)),
+    url('${h[3]}')">
+  </div>
+
+  <div class="carousel-body">
+    <div class="carousel-tag">${h[0]}</div>
+
+    <div class="carousel-title">
+      ${h[1]}
+    </div>
+
+    <div class="carousel-desc">
+      ${h[2]}
+    </div>
+
+    <a href="${h[4]}" class="carousel-more">
+      ${h[5]} →
+    </a>
+  </div>
+</div>
+`).join("");
+
+document.getElementById("heroCarousel").innerHTML =
+heroHTML + `
+<div class="carousel-dots">
+${data.hero.map((_,i)=>`
+<div class="carousel-dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>
+`).join("")}
+</div>
+`;
 }
 window.addEventListener("DOMContentLoaded", loadCMS);
 
