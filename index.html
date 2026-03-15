@@ -1185,18 +1185,66 @@ renderMembers("all");
 //
 // CONCERT
 //
+//
+// CONCERT
+//
+//
+// CONCERT
+//
 if(data.concerts.length){
 
-const c = data.concerts[0];
+const today = new Date();
 
-document.getElementById("concertTitle").innerText = c[0];
+let upcoming = data.concerts
+.map(c => ({
+  title: c[0],
+  date: new Date(c[1]),
+  venue: c[2],
+  time: c[3]
+}))
+.filter(c => c.date >= today)
+.sort((a,b)=> a.date - b.date)[0];
+
+
+// 未来公演が無い場合 → 一番新しい公演を表示
+if(!upcoming){
+
+upcoming = data.concerts
+.map(c => ({
+  title: c[0],
+  date: new Date(c[1]),
+  venue: c[2],
+  time: c[3]
+}))
+.sort((a,b)=> b.date - a.date)[0];
+
+}
+
+
+if(upcoming){
+
+const d = upcoming.date;
+
+const year = d.getFullYear();
+const month = d.getMonth()+1;
+const day = d.getDate();
+
+document.getElementById("concertTitle").innerText =
+upcoming.title;
 
 document.getElementById("concertInfo").innerHTML = `
-📍 会場：${c[2]}<br>
-🕐 開演：${c[3]}<br>
+📍 会場：${upcoming.venue}<br>
+🕐 開演：${upcoming.time}<br>
 🎟 入場無料
 `;
 
+document.querySelector(".next-month").innerText =
+month + "月";
+
+document.querySelector(".next-day").innerText =
+day + "日";
+
+}
 }
 
 //
