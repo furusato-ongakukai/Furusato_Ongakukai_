@@ -432,24 +432,40 @@
     display: flex; gap: 3rem; align-items: center;
     box-shadow: 0 4px 32px rgba(0,0,0,0.07);
   }
-  .next-date-block {
-    flex-shrink: 0; text-align: center;
-    background: var(--primary); color: var(--white);
-    padding: 1.2rem 1.8rem;
-  }
-  .next-month {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.8rem; letter-spacing: 0.3em;
-    text-transform: uppercase; color: var(--accent2);
-  }
-  .next-day {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3rem; font-weight: 300; line-height: 1; color: var(--white);
-  }
-  .next-year {
-    font-size: 0.7rem; color: rgba(255,255,255,0.6);
-    letter-spacing: 0.15em;
-  }
+
+  .next-date-block{
+  flex-shrink:0;
+  text-align:center;
+  background:var(--primary);
+  color:white;
+  padding:1.4rem 2rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  min-width:120px;
+  border-left:3px solid var(--accent);
+}
+  .next-month{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.9rem;
+  letter-spacing:0.25em;
+  color:var(--accent2);
+  margin-bottom:4px;
+}
+  .next-day{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.6rem;
+  font-weight:300;
+  line-height:1;
+  color:white;
+}
+  .next-year{
+  font-size:0.65rem;
+  color:rgba(255,255,255,0.55);
+  letter-spacing:0.15em;
+  margin-top:6px;
+}
   .next-info { flex: 1; }
   .next-badge {
     display: inline-block; padding: 0.2rem 0.8rem;
@@ -929,6 +945,16 @@ max-width:520px !important;
     <h3 style="font-family:'Noto Serif JP',serif; font-size:1.1rem; font-weight:400; letter-spacing:0.1em; margin-bottom:1.5rem; color:var(--primary);">過去の主な公演実績</h3>
     <div id="concertHistory" style="display:grid;gap:0.6rem;"></div>
   </div>
+
+  <div id="concertDetail" style="display:none; margin-top:40px;">
+  <div class="next-concert">
+    <div class="next-info">
+      <div class="next-concert-title" id="detailTitle"></div>
+      <div class="next-concert-venue" id="detailInfo"></div>
+    </div>
+  </div>
+</div>
+  
 </section>
 
 <section class="section section-alt">
@@ -1149,6 +1175,7 @@ const CMS_URL = "https://script.google.com/macros/s/AKfycbxLP3JZpcW7ON7ay5QO2tzo
 
 async function loadCMS(){
 
+
 let data;
 
 try{
@@ -1162,6 +1189,7 @@ console.error("CMS load error", e);
 return;
 
 }
+window.concertData = data.concerts;
 
 //
 // MEMBERS
@@ -1185,12 +1213,7 @@ renderMembers("all");
 //
 // CONCERT
 //
-//
-// CONCERT
-//
-//
-// CONCERT
-//
+
 if(data.concerts.length){
 
 const today = new Date();
@@ -1226,16 +1249,22 @@ if(upcoming){
 const d = upcoming.date;
 
 const year = d.getFullYear();
-const month = d.getMonth()+1;
+const month = d.getMonth() + 1;
 const day = d.getDate();
-const time = upcoming.time;
 
-let displayTime = time;
+document.querySelector(".next-month").innerText =
+year;
 
-if(time.includes("T")){
-  displayTime = time.slice(11,16);
+document.querySelector(".next-day").innerText =
+month + "." + day;
+
+let displayTime = upcoming.time;
+
+// GASからISO形式で来た場合の保険
+if(typeof displayTime === "string" && displayTime.includes("T")){
+displayTime = displayTime.slice(11,16);
 }
-  
+
 document.getElementById("concertTitle").innerText =
 upcoming.title;
 
@@ -1245,14 +1274,75 @@ document.getElementById("concertInfo").innerHTML = `
 🎟 入場無料
 `;
 
-document.querySelector(".next-month").innerText =
-month + "月";
+}
+//
+// CALENDAR AUTO GENERATE
+//
 
-document.querySelector(".next-day").innerText =
-day + "日";
+const concertDates = {};
+
+data.concerts.forEach((c,index)=>{
+
+const d = new Date(c[1]);
+const month = d.getMonth()+1;
+const day = d.getDate();
+
+if(!concertDates[month]){
+concertDates[month] = [];
+}
+
+concertDates[month].push({
+day:day,
+index:index
+});
+
+});
+
+
+const months = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+const dayNames = ["日","月","火","水","木","金","土"];
+
+const calGrid = document.getElementById("calendarGrid");
+
+const year = new Date().getFullYear();
+
+calGrid.innerHTML = months.map((m,i)=>{
+
+const mo = i + 1;
+
+const firstDay = new Date(year,i,1).getDay();
+const daysInMonth = new Date(year,i+1,0).getDate();
+
+const concerts = concertDates[mo] || [];
+
+let cells = dayNames.map(d=>`<div class="cal-day-name">${d}</div>`).join("");
+
+for(let x=0;x<firstDay;x++){
+cells += `<div class="cal-day empty"></div>`;
+}
+
+for(let d=1; d<=daysInMonth; d++){
+
+const concert = concerts.find(c=>c.day===d);
+
+if(concert){
+cells += `<div class="cal-day has-concert"
+onclick="showConcertDetail(${concert.index})"
+title="${mo}月${d}日 公演">${d}</div>`;
+}else{
+cells += `<div class="cal-day">${d}</div>`;
+}
 
 }
-}
+
+return `
+<div class="cal-month">
+<div class="cal-month-name">${m}</div>
+<div class="cal-days">${cells}</div>
+</div>
+`;
+
+}).join("");
 
 //
 // INSTAGRAM VIDEOS
@@ -1315,8 +1405,32 @@ ${data.heros.map((_,i)=>`
 </div>
 `;
 }
-window.addEventListener("DOMContentLoaded", loadCMS);
 
+window.addEventListener("DOMContentLoaded", loadCMS);
+function showConcertDetail(index){
+
+const c = window.concertData[index];
+
+const d = new Date(c[1]);
+
+const month = d.getMonth()+1;
+const day = d.getDate();
+
+document.getElementById("detailTitle").innerText =
+c[0];
+
+document.getElementById("detailInfo").innerHTML = `
+📅 ${month}月${day}日<br>
+📍 ${c[2]}<br>
+🕐 開演 ${c[3]}
+`;
+
+document.getElementById("concertDetail").style.display = "block";
+
+document.getElementById("concertDetail")
+.scrollIntoView({behavior:"smooth"});
+
+}
 </script>
 <script async src="https://www.instagram.com/embed.js"></script>
 </body>
