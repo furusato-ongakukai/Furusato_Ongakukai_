@@ -1259,16 +1259,30 @@ let displayTime = upcoming.time;
 
 if(displayTime){
 
-if(typeof displayTime === "string"){
-displayTime = displayTime;
+// GASから来た Date型対応
+if(displayTime instanceof Date){
 
-}else{
-
-const t = new Date(displayTime);
-displayTime = t.toLocaleTimeString("ja-JP",{
+displayTime = displayTime.toLocaleTimeString("ja-JP",{
 hour:"2-digit",
 minute:"2-digit"
 });
+
+}
+
+// ISO文字列対応
+else if(typeof displayTime === "string" && displayTime.includes("T")){
+
+displayTime = new Date(displayTime).toLocaleTimeString("ja-JP",{
+hour:"2-digit",
+minute:"2-digit"
+});
+
+}
+
+// すでに "14:00" の場合
+else{
+
+displayTime = displayTime;
 
 }
 
