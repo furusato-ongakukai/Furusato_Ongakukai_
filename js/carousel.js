@@ -1,10 +1,9 @@
-
 // ============ CAROUSEL ============
 let currentSlide = 0;
 
 function goSlide(n) {
   const slides = document.querySelectorAll('.carousel-slide');
-  const dots = document.querySelectorAll('.carousel-dot');
+  const dots   = document.querySelectorAll('.carousel-dot');
   if (!slides.length) return;
   slides[currentSlide].classList.remove('active');
   if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
@@ -15,6 +14,7 @@ function goSlide(n) {
 
 setInterval(() => {
   const slides = document.querySelectorAll('.carousel-slide');
-  if (!slides.length) return;
+  // スライドが1枚以下の場合は自動送りしない
+  if (slides.length <= 1) return;
   goSlide((currentSlide + 1) % slides.length);
 }, 6000);
