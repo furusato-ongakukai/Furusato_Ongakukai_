@@ -5,11 +5,9 @@ async function loadConcerts() {
   const res = await fetch(CMS_URL);
   const data = await res.json();
 
-  const concerts = data.concerts;
-
   const timeline = document.getElementById("concertTimeline");
 
-  const sorted = concerts
+  const concerts = data.concerts
     .map(c => ({
       title: c[0],
       date: new Date(c[1]),
@@ -19,7 +17,7 @@ async function loadConcerts() {
     }))
     .sort((a,b)=> b.date - a.date);
 
-  timeline.innerHTML = sorted.map((c,i)=>{
+  timeline.innerHTML = concerts.map((c,i)=>{
 
     const odd = i % 2 === 0 ? "concert--odd" : "concert--even";
 
@@ -29,12 +27,19 @@ async function loadConcerts() {
 
     const num = c.title.match(/\d+/)?.[0] || "";
 
+    const image = c.image && c.image.trim() !== ""
+      ? c.image
+      : "images/coming.jpg";
+
     return `
 
 <article class="concert ${odd}">
   
   <div class="concert__image">
-    <img src="${c.image}" alt="${c.title}" loading="lazy">
+    <img src="${image}" 
+         alt="${c.title}" 
+         loading="lazy"
+         onerror="this.src='images/coming.jpg'">
   </div>
 
   <div class="concert__center">
