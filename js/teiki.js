@@ -6,6 +6,7 @@ async function loadConcerts() {
 
     const res = await fetch(CMS_URL);
     const data = await res.json();
+    console.log("CMS DATA:", data);
 
     const timeline = document.getElementById("concertTimeline");
 
