@@ -37,3 +37,10 @@ function closeMobileMenu() {
   spans[1].style.cssText = '';
   spans[2].style.cssText = '';
 }
+
+const emailLink = document.getElementById("emailLink");
+
+if (emailLink && typeof SITE_CONFIG !== "undefined") {
+  emailLink.href = "mailto:" + SITE_CONFIG.email;
+  emailLink.textContent = SITE_CONFIG.email;
+}
