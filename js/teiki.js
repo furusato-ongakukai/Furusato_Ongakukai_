@@ -41,7 +41,7 @@ async function loadConcerts() {
 
     const image = c.image && c.image.trim() !== ""
       ? c.image
-      : "images/coming.jpg";
+      : "images/coming.svg";
 
     return `
 
