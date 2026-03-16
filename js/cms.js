@@ -185,6 +185,18 @@ if (data.concerts && historyEl) {
       ${data.heros.map((_,i) => `<div class="carousel-dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join("")}
     </div>
   `;
+
+  // CONTACT
+if (typeof SITE_CONFIG !== "undefined") {
+
+  const emailEl = document.getElementById("emailLink");
+
+  if (emailEl) {
+    emailEl.innerText = SITE_CONFIG.email;
+    emailEl.href = "mailto:" + SITE_CONFIG.email;
+  }
+
+}
 }
 
 window.addEventListener("DOMContentLoaded", loadCMS);
