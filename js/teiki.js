@@ -39,7 +39,7 @@ async function loadConcerts() {
     <img src="${image}" 
          alt="${c.title}" 
          loading="lazy"
-         onerror="this.src='images/coming.jpg'">
+         onerror="this.src='images/coming.svg'">
   </div>
 
   <div class="concert__center">
