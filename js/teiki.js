@@ -83,12 +83,28 @@ async function loadConcerts() {
 </article>
 `;
     }).join("");
-
+  initScrollReveal();
   } catch (e) {
 
     console.error("concert load error", e);
 
   }
+
+}
+
+function initScrollReveal(){
+
+  const concerts = document.querySelectorAll('.concert');
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  concerts.forEach(c => io.observe(c));
 
 }
 
