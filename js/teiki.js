@@ -7,12 +7,10 @@ async function loadConcerts() {
     const res = await fetch(CMS_URL);
     const data = await res.json();
 
-    console.log("CMS DATA:", data);  // ←追加
-
     const timeline = document.getElementById("concertTimeline");
 
-    if(!timeline){
-      console.error("timeline element not found");
+    if (!timeline) {
+      console.error("timeline not found");
       return;
     }
 
@@ -26,32 +24,29 @@ async function loadConcerts() {
       }))
       .sort((a,b)=> b.date - a.date);
 
-    console.log("concerts:", concerts); // ←追加
+    timeline.innerHTML = concerts.map((c,i)=>{
 
-  timeline.innerHTML = concerts.map((c,i)=>{
+      const odd = i % 2 === 0 ? "concert--odd" : "concert--even";
+      const isLatest = i === 0 ? "latest" : "";
 
-    const odd = i % 2 === 0 ? "concert--odd" : "concert--even";
-    const isLatest = i === 0 ? "latest" : "";
+      const y = c.date.getFullYear();
+      const m = c.date.getMonth()+1;
+      const d = c.date.getDate();
 
-    const y = c.date.getFullYear();
-    const m = c.date.getMonth()+1;
-    const d = c.date.getDate();
+      const num = c.title.match(/\d+/)?.[0] || "";
 
-    const num = c.title.match(/\d+/)?.[0] || "";
+      const image = c.image && c.image.trim() !== ""
+        ? c.image
+        : "images/coming.svg";
 
-    const image = c.image && c.image.trim() !== ""
-      ? c.image
-      : "images/coming.svg";
-
-    return `
-
+      return `
 <article class="concert ${odd} ${isLatest}">
   
   <div class="concert__image">
     <img src="${image}" 
          alt="${c.title}" 
          loading="lazy"
-         onerror="this.src='images/coming.jpg'">
+         onerror="this.src='images/coming.svg'">
   </div>
 
   <div class="concert__center">
@@ -85,10 +80,14 @@ async function loadConcerts() {
   </div>
 
 </article>
-
 `;
+    }).join("");
 
-  }).join("");
+  } catch (e) {
+
+    console.error("concert load error", e);
+
+  }
 
 }
 
