@@ -1,0 +1,135 @@
+<svg width="400" height="566" viewBox="0 0 400 566" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- 背景 -->
+  <rect width="400" height="566" fill="#f5f0e8"/>
+
+  <!-- 外枠ダブルボーダー -->
+  <rect width="400" height="566" fill="none" stroke="#c9a96e" stroke-width="0.6" opacity="0.35"/>
+  <rect x="10" y="10" width="380" height="546" fill="none" stroke="#c9a96e" stroke-width="0.3" opacity="0.22"/>
+
+  <!-- 五線譜（上段） -->
+  <g opacity="0.12" stroke="#8b7240" stroke-width="0.7" fill="none">
+    <line x1="40"  y1="230" x2="360" y2="230"/>
+    <line x1="40"  y1="244" x2="360" y2="244"/>
+    <line x1="40"  y1="258" x2="360" y2="258"/>
+    <line x1="40"  y1="272" x2="360" y2="272"/>
+    <line x1="40"  y1="286" x2="360" y2="286"/>
+  </g>
+
+  <!-- 五線譜（下段） -->
+  <g opacity="0.10" stroke="#8b7240" stroke-width="0.7" fill="none">
+    <line x1="40"  y1="310" x2="360" y2="310"/>
+    <line x1="40"  y1="324" x2="360" y2="324"/>
+    <line x1="40"  y1="338" x2="360" y2="338"/>
+    <line x1="40"  y1="352" x2="360" y2="352"/>
+    <line x1="40"  y1="366" x2="360" y2="366"/>
+  </g>
+
+  <!-- 音符（装飾） -->
+  <g opacity="0.13" fill="#8b7240">
+    <!-- 音符1 -->
+    <ellipse cx="95" cy="285" rx="9" ry="6.5" transform="rotate(-18,95,285)"/>
+    <rect x="103.5" y="247" width="1.8" height="38"/>
+    <path d="M105.3 247 Q120 257 114 268" fill="none" stroke="#8b7240" stroke-width="1.8"/>
+    <!-- 音符2 -->
+    <ellipse cx="148" cy="258" rx="9" ry="6.5" transform="rotate(-18,148,258)"/>
+    <rect x="156.5" y="220" width="1.8" height="38"/>
+    <path d="M158.3 220 Q173 230 167 241" fill="none" stroke="#8b7240" stroke-width="1.8"/>
+    <!-- 音符3（連桁付き） -->
+    <ellipse cx="220" cy="272" rx="9" ry="6.5" transform="rotate(-18,220,272)"/>
+    <rect x="228.5" y="234" width="1.8" height="38"/>
+    <rect x="228.5" y="244" width="14" height="1.6"/>
+    <!-- 音符4（連桁付き） -->
+    <ellipse cx="278" cy="244" rx="9" ry="6.5" transform="rotate(-18,278,244)"/>
+    <rect x="286.5" y="206" width="1.8" height="38"/>
+    <rect x="286.5" y="216" width="14" height="1.6"/>
+    <!-- 音符5 -->
+    <ellipse cx="308" cy="338" rx="9" ry="6.5" transform="rotate(-18,308,338)"/>
+    <rect x="316.5" y="300" width="1.8" height="38"/>
+  </g>
+
+  <!-- 菱形コーナー装飾（左上） -->
+  <g opacity="0.08" stroke="#8b7240" stroke-width="0.6" fill="none">
+    <rect x="30" y="30" width="10" height="10" transform="rotate(45,35,35)"/>
+    <rect x="55" y="30" width="10" height="10" transform="rotate(45,60,35)"/>
+    <rect x="42" y="43" width="10" height="10" transform="rotate(45,47,48)"/>
+  </g>
+  <!-- 菱形コーナー装飾（右上） -->
+  <g opacity="0.08" stroke="#8b7240" stroke-width="0.6" fill="none">
+    <rect x="330" y="30" width="10" height="10" transform="rotate(45,335,35)"/>
+    <rect x="355" y="30" width="10" height="10" transform="rotate(45,360,35)"/>
+    <rect x="342" y="43" width="10" height="10" transform="rotate(45,347,48)"/>
+  </g>
+  <!-- 菱形コーナー装飾（左下） -->
+  <g opacity="0.08" stroke="#8b7240" stroke-width="0.6" fill="none">
+    <rect x="30" y="510" width="10" height="10" transform="rotate(45,35,515)"/>
+    <rect x="55" y="510" width="10" height="10" transform="rotate(45,60,515)"/>
+    <rect x="42" y="523" width="10" height="10" transform="rotate(45,47,528)"/>
+  </g>
+  <!-- 菱形コーナー装飾（右下） -->
+  <g opacity="0.08" stroke="#8b7240" stroke-width="0.6" fill="none">
+    <rect x="330" y="510" width="10" height="10" transform="rotate(45,335,515)"/>
+    <rect x="355" y="510" width="10" height="10" transform="rotate(45,360,515)"/>
+    <rect x="342" y="523" width="10" height="10" transform="rotate(45,347,528)"/>
+  </g>
+
+  <!-- 背景装飾文字 "Music" -->
+  <text
+    x="200" y="148"
+    text-anchor="middle"
+    font-family="Georgia,'Times New Roman',serif"
+    font-size="72"
+    font-style="italic"
+    font-weight="300"
+    fill="none"
+    stroke="#c9a96e"
+    stroke-width="0.5"
+    opacity="0.10"
+    letter-spacing="2"
+  >Music</text>
+
+  <!-- 団体名ラベル -->
+  <text
+    x="200" y="430"
+    text-anchor="middle"
+    font-family="'YuMincho','Hiragino Mincho Pro','Times New Roman',serif"
+    font-size="11"
+    font-weight="300"
+    fill="#8b7240"
+    letter-spacing="5"
+    opacity="0.55"
+  >FURUSATO ONGAKUKAI</text>
+
+  <!-- 菱形デコレーター -->
+  <g transform="translate(200,455)">
+    <line x1="-36" y1="0" x2="-9"  y2="0" stroke="#c9a96e" stroke-width="0.8" opacity="0.6"/>
+    <rect x="-5" y="-5" width="10" height="10" transform="rotate(45)" fill="none" stroke="#c9a96e" stroke-width="0.9" opacity="0.8"/>
+    <line x1="9"  y1="0" x2="36"  y2="0" stroke="#c9a96e" stroke-width="0.8" opacity="0.6"/>
+  </g>
+
+  <!-- Coming Soon -->
+  <text
+    x="200" y="490"
+    text-anchor="middle"
+    font-family="Georgia,'Times New Roman',serif"
+    font-size="15"
+    font-style="italic"
+    font-weight="300"
+    fill="#7a6540"
+    letter-spacing="3"
+    opacity="0.75"
+  >Coming Soon</text>
+
+  <!-- 準備中 -->
+  <text
+    x="200" y="516"
+    text-anchor="middle"
+    font-family="'YuMincho','Hiragino Mincho Pro','Times New Roman',serif"
+    font-size="10"
+    font-weight="200"
+    fill="#8b7240"
+    letter-spacing="3"
+    opacity="0.50"
+  >準備中</text>
+
+</svg>
