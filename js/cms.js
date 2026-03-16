@@ -76,7 +76,6 @@ async function loadCMS() {
   const months = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
   const dayNames = ["日","月","火","水","木","金","土"];
   const calGrid = document.getElementById("calendarGrid");
-  const today = new Date();
 
   const futureConcerts = data.concerts
     .filter(c => new Date(c[1]) >= today)
@@ -115,6 +114,41 @@ async function loadCMS() {
     }
     return `<div class="cal-month"><div class="cal-month-name">${m}</div><div class="cal-days">${cells}</div></div>`;
   }).join("");
+
+ // CONCERT HISTORY
+const historyEl = document.getElementById("concertHistory");
+
+if (data.concerts && historyEl) {
+
+  const pastConcerts = data.concerts
+    .map(c => ({
+      title: c[0],
+      date: new Date(c[1]),
+      venue: c[2],
+      time: c[3]
+    }))
+    .filter(c => c.date < today)
+    .sort((a,b) => b.date - a.date);
+
+  historyEl.innerHTML = pastConcerts.map(c => {
+
+    const y = c.date.getFullYear();
+    const m = c.date.getMonth()+1;
+    const d = c.date.getDate();
+
+    return `
+    <div style="display:flex;gap:1rem;align-items:flex-start;padding:0.7rem 0;border-bottom:1px solid #e8e2d9;">
+      <span style="flex-shrink:0;font-family:'Cormorant Garamond',serif;font-size:0.8rem;color:var(--accent);letter-spacing:0.1em;min-width:40px;">
+        ${y}
+      </span>
+      <span style="font-size:0.82rem;color:var(--text-light);font-weight:300;line-height:1.7;">
+        ${c.title} - ${y}年${m}月${d}日 ${c.venue}
+      </span>
+    </div>
+    `;
+  }).join("");
+
+}
 
   // INSTAGRAM VIDEOS
   const html = data.videos.map(v => `
@@ -171,3 +205,5 @@ function showConcertDetail(index) {
   document.getElementById("concertDetail").style.display = "block";
   document.getElementById("concertDetail").scrollIntoView({ behavior: "smooth" });
 }
+
+
