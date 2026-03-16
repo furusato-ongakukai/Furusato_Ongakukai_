@@ -8,9 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+JP:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
 
   <style>
-    /* ===== CSS Variables — teiki.html と共通 ===== */
+    /* ===== CSS Variables ===== */
     :root {
       --bg:         #faf8f4;
       --bg-alt:     #f2ede4;
@@ -27,7 +28,6 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
       font-family: var(--ff-serif);
       background: var(--bg);
@@ -36,14 +36,25 @@
       overflow-x: hidden;
     }
 
-    /* ===== Page Header（teiki.html と同構造）===== */
+    /* ===== Nav（サブページ用：常時表示） ===== */
+    #main-nav {
+      transform: translateY(0) !important;
+      background: rgba(255,255,255,0.97) !important;
+      border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.08) !important;
+    }
+    #main-nav .nav-logo-text  { color: var(--primary) !important; }
+    #main-nav .nav-links a    { color: var(--text) !important; }
+    #main-nav .nav-links a:hover { color: var(--accent) !important; }
+    #main-nav .hamburger span { background: var(--primary) !important; }
+
+    /* ===== Page Header ===== */
     .page-header {
       position: relative;
-      padding: 80px 24px 64px;
+      padding: calc(68px + 40px) 24px 64px;
       text-align: center;
       overflow: hidden;
     }
-
     .page-header::before {
       content: '';
       position: absolute;
@@ -51,11 +62,9 @@
       background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(184,154,90,0.10) 0%, transparent 70%);
       pointer-events: none;
     }
-
     .page-header__deco {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       font-family: var(--ff-latin);
       font-size: clamp(80px, 18vw, 200px);
@@ -68,7 +77,6 @@
       pointer-events: none;
       user-select: none;
     }
-
     .page-header__label {
       font-family: var(--ff-latin);
       font-size: 11px;
@@ -78,7 +86,6 @@
       margin-bottom: 16px;
       position: relative;
     }
-
     .page-header__title {
       font-size: clamp(28px, 5vw, 48px);
       font-weight: 300;
@@ -87,7 +94,6 @@
       position: relative;
       color: var(--ink);
     }
-
     .page-header__rule {
       display: flex;
       align-items: center;
@@ -95,9 +101,7 @@
       gap: 12px;
       margin: 24px auto 0;
       width: fit-content;
-      position: relative;
     }
-
     .page-header__rule::before,
     .page-header__rule::after {
       content: '';
@@ -107,10 +111,8 @@
       background: var(--gold);
       opacity: 0.6;
     }
-
     .page-header__rule-icon {
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       border: 1px solid var(--gold);
       transform: rotate(45deg);
     }
@@ -130,11 +132,7 @@
       transform: translateY(16px);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
-
-    .lead.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .lead.visible { opacity: 1; transform: translateY(0); }
 
     /* ===== Gallery Section ===== */
     .gallery-section {
@@ -143,12 +141,7 @@
       padding: 0 24px 100px;
     }
 
-    /* ===== Masonry-style grid ===== */
-    /*
-      6枚の写真を Magazine レイアウトで配置する。
-      Row1: 大1枚 + 縦2枚
-      Row2: 縦2枚 + 大1枚
-    */
+    /* ===== Magazine grid ===== */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
@@ -156,14 +149,11 @@
       gap: 12px;
     }
 
-    /* --- Row 1 --- */
     .photo-1 { grid-column: 1 / 8;  grid-row: 1; }
-    .photo-2 { grid-column: 8 / 13; grid-row: 1; }  /* 上 */
-    .photo-3 { grid-column: 8 / 13; grid-row: 2; }  /* 下 */
-
-    /* --- Row 2 (フェードイン遅延あり) --- */
-    .photo-4 { grid-column: 1 / 6;  grid-row: 3; }  /* 上 */
-    .photo-5 { grid-column: 1 / 6;  grid-row: 4; }  /* 下 */
+    .photo-2 { grid-column: 8 / 13; grid-row: 1; }
+    .photo-3 { grid-column: 8 / 13; grid-row: 2; }
+    .photo-4 { grid-column: 1 / 6;  grid-row: 3; }
+    .photo-5 { grid-column: 1 / 6;  grid-row: 4; }
     .photo-6 { grid-column: 6 / 13; grid-row: 3 / 5; }
 
     /* ===== Photo Item ===== */
@@ -176,13 +166,8 @@
       transform: translateY(20px) scale(0.98);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
+    .photo-item.visible { opacity: 1; transform: translateY(0) scale(1); }
 
-    .photo-item.visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    /* 各写真の遅延 */
     .photo-1 { transition-delay: 0.05s; }
     .photo-2 { transition-delay: 0.15s; }
     .photo-3 { transition-delay: 0.25s; }
@@ -198,7 +183,6 @@
       transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    /* 縦横比の指定 */
     .photo-1 img { aspect-ratio: 7/5; }
     .photo-2 img,
     .photo-3 img { aspect-ratio: 5/4; }
@@ -206,122 +190,17 @@
     .photo-5 img { aspect-ratio: 5/4; }
     .photo-6 img { aspect-ratio: 7/10; min-height: 100%; }
 
-    .photo-item:hover img {
-      transform: scale(1.05);
-    }
+    .photo-item:hover img { transform: scale(1.05); }
 
-    /* ゴールドのオーバーレイ */
     .photo-item::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(184, 154, 90, 0);
+      background: rgba(184,154,90,0);
       transition: background 0.4s ease;
       pointer-events: none;
     }
-
-    .photo-item:hover::after {
-      background: rgba(184, 154, 90, 0.08);
-    }
-
-    /* ===== Lightbox ===== */
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background: rgba(20, 16, 10, 0.92);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s ease;
-      backdrop-filter: blur(4px);
-    }
-
-    .lightbox.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .lightbox__inner {
-      position: relative;
-      max-width: min(90vw, 800px);
-      max-height: 90vh;
-    }
-
-    .lightbox__img {
-      display: block;
-      max-width: 100%;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 2px;
-      box-shadow: 0 20px 80px rgba(0,0,0,0.6);
-      transform: scale(0.96);
-      transition: transform 0.35s ease;
-    }
-
-    .lightbox.open .lightbox__img {
-      transform: scale(1);
-    }
-
-    .lightbox__close {
-      position: absolute;
-      top: -36px;
-      right: 0;
-      background: none;
-      border: none;
-      color: rgba(255,255,255,0.7);
-      font-family: var(--ff-latin);
-      font-size: 13px;
-      letter-spacing: 0.20em;
-      cursor: pointer;
-      transition: color 0.2s;
-      padding: 4px 0;
-    }
-
-    .lightbox__close:hover { color: var(--gold-light); }
-
-    /* 前後ボタン */
-    .lightbox__prev,
-    .lightbox__next {
-      position: fixed;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: 1px solid rgba(255,255,255,0.25);
-      color: rgba(255,255,255,0.7);
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .lightbox__prev { left: 20px; }
-    .lightbox__next { right: 20px; }
-
-    .lightbox__prev:hover,
-    .lightbox__next:hover {
-      border-color: var(--gold-light);
-      color: var(--gold-light);
-    }
-
-    /* ページカウンター */
-    .lightbox__counter {
-      position: absolute;
-      bottom: -28px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: var(--ff-latin);
-      font-size: 12px;
-      letter-spacing: 0.20em;
-      color: rgba(255,255,255,0.4);
-    }
+    .photo-item:hover::after { background: rgba(184,154,90,0.08); }
 
     /* ===== Divider ===== */
     .section-divider {
@@ -332,7 +211,6 @@
       gap: 16px;
       padding: 0 24px;
     }
-
     .section-divider::before,
     .section-divider::after {
       content: '';
@@ -340,50 +218,90 @@
       height: 1px;
       background: var(--line);
     }
-
     .section-divider__icon {
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       border: 1px solid var(--gold);
       transform: rotate(45deg);
       flex-shrink: 0;
     }
 
-    /* ===== Footer note ===== */
-    .page-footer-note {
-      text-align: center;
-      padding: 40px 24px 80px;
-      border-top: 1px solid var(--line);
-      max-width: 640px;
-      margin: 0 auto;
+    /* ===== Lightbox ===== */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(20,16,10,0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      backdrop-filter: blur(4px);
     }
-
-    .page-footer-note p {
-      font-size: 12px;
-      color: var(--ink-muted);
-      letter-spacing: 0.06em;
-      margin-bottom: 10px;
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox__inner {
+      position: relative;
+      max-width: min(90vw, 800px);
+      max-height: 90vh;
     }
-
-    .page-footer-note a {
-      color: var(--gold);
-      text-decoration: none;
+    .lightbox__img {
+      display: block;
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 2px;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+      transform: scale(0.96);
+      transition: transform 0.35s ease;
+    }
+    .lightbox.open .lightbox__img { transform: scale(1); }
+    .lightbox__close {
+      position: absolute;
+      top: -36px; right: 0;
+      background: none; border: none;
+      color: rgba(255,255,255,0.7);
+      font-family: var(--ff-latin);
       font-size: 13px;
-      letter-spacing: 0.08em;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s;
+      letter-spacing: 0.20em;
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 4px 0;
     }
-
-    .page-footer-note a:hover { border-color: var(--gold); }
+    .lightbox__close:hover { color: var(--gold-light); }
+    .lightbox__prev,
+    .lightbox__next {
+      position: fixed;
+      top: 50%; transform: translateY(-50%);
+      background: none;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.7);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .lightbox__prev { left: 20px; }
+    .lightbox__next { right: 20px; }
+    .lightbox__prev:hover,
+    .lightbox__next:hover { border-color: var(--gold-light); color: var(--gold-light); }
+    .lightbox__counter {
+      position: absolute;
+      bottom: -28px; left: 50%; transform: translateX(-50%);
+      font-family: var(--ff-latin);
+      font-size: 12px;
+      letter-spacing: 0.20em;
+      color: rgba(255,255,255,0.4);
+    }
 
     /* ===== Mobile ===== */
     @media (max-width: 680px) {
       .gallery-grid {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
         gap: 8px;
       }
-
       .photo-1 { grid-column: 1 / 3; grid-row: 1; }
       .photo-2 { grid-column: 1 / 2; grid-row: 2; }
       .photo-3 { grid-column: 2 / 3; grid-row: 2; }
@@ -402,6 +320,46 @@
 </head>
 <body>
 
+<!-- ===== NAV ===== -->
+<nav id="main-nav" class="visible scrolled">
+  <a class="nav-logo-wrap" href="index.html">
+    <img src="images/logo_transparent.png" class="nav-logo-img" alt="ふるさと音楽会ロゴ">
+    <span class="nav-logo-text">ふるさと音楽会</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">ホーム</a></li>
+    <li><a href="index.html#about">ABOUT</a></li>
+    <li class="dropdown">
+      <a href="#">活動</a>
+      <ul class="dropdown-menu">
+        <li><a href="teiki.html">定期公演</a></li>
+        <li><a href="machikado.html">まちかどコンサート</a></li>
+        <li><a href="school.html">音楽鑑賞教室</a></li>
+        <li><a href="lesson.html">音楽教育</a></li>
+      </ul>
+    </li>
+    <li><a href="index.html#members">メンバー</a></li>
+    <li><a href="index.html#contact">お問い合わせ</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- モバイルメニュー -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="index.html"          onclick="closeMobileMenu()">ホーム</a></li>
+    <li><a href="index.html#about"    onclick="closeMobileMenu()">ABOUT</a></li>
+    <li><a href="teiki.html"          onclick="closeMobileMenu()">定期公演</a></li>
+    <li><a href="machikado.html"      onclick="closeMobileMenu()">まちかどコンサート</a></li>
+    <li><a href="school.html"         onclick="closeMobileMenu()">音楽鑑賞教室</a></li>
+    <li><a href="lesson.html"         onclick="closeMobileMenu()">音楽教育</a></li>
+    <li><a href="index.html#members"  onclick="closeMobileMenu()">メンバー</a></li>
+    <li><a href="index.html#contact"  onclick="closeMobileMenu()">お問い合わせ</a></li>
+  </ul>
+</div>
+
 <!-- ===== PAGE HEADER ===== -->
 <header class="page-header">
   <div class="page-header__deco">Street</div>
@@ -413,7 +371,7 @@
 </header>
 
 <!-- ===== LEAD ===== -->
-<p class="lead">
+<p class="lead" id="lead">
   ふるさと音楽会の演奏をより身近に聴いていただけるよう、<br>
   ショッピングモールのイベントスペースや駅前広場、小ホールなどで<br>
   ミニコンサートを開催してきました。
@@ -421,70 +379,42 @@
 
 <!-- ===== GALLERY ===== -->
 <section class="gallery-section">
-
   <div class="section-divider"><div class="section-divider__icon"></div></div>
 
   <div class="gallery-grid">
-
+    <!-- 画像パス：images/machikado/ に配置した6枚を使用 -->
     <div class="photo-item photo-1" data-index="0">
-      <img
-        src="https://static.wixstatic.com/media/11a6b4_513c285bea1948b281273ff14ea08cab~mv2.jpg/v1/fill/w_448,h_515,al_c,lg_1,q_80,enc_avif,quality_auto/IMG_4537_JPG.jpg"
-        alt="まちかどコンサートの様子 1"
-        loading="lazy"
-      />
+      <img src="images/machikado/machikado_1.avif" alt="まちかどコンサートの様子 1" loading="lazy" />
     </div>
-
     <div class="photo-item photo-2" data-index="1">
-      <img
-        src="https://static.wixstatic.com/media/11a6b4_d0896280c89f44858d087f6d9c7fd7ab~mv2.jpg/v1/fill/w_441,h_588,q_90,enc_avif,quality_auto/11a6b4_d0896280c89f44858d087f6d9c7fd7ab~mv2.jpg"
-        alt="まちかどコンサートの様子 2"
-        loading="lazy"
-      />
+      <img src="images/machikado/machikado_2.png" alt="まちかどコンサートの様子 2" loading="lazy" />
     </div>
-
     <div class="photo-item photo-3" data-index="2">
-      <img
-        src="https://static.wixstatic.com/media/11a6b4_9320f19ab7324d74a355b306cdf8b7fb~mv2.jpg/v1/fill/w_441,h_588,fp_0.49_0.23,q_90,enc_avif,quality_auto/11a6b4_9320f19ab7324d74a355b306cdf8b7fb~mv2.jpg"
-        alt="まちかどコンサートの様子 3"
-        loading="lazy"
-      />
+      <img src="images/machikado/machikado_3.png" alt="まちかどコンサートの様子 3" loading="lazy" />
     </div>
-
     <div class="photo-item photo-4" data-index="3">
-      <img
-        src="https://static.wixstatic.com/media/11a6b4_a44585055439477589dabad9f9aefda6~mv2.jpg/v1/fill/w_441,h_588,q_90,enc_avif,quality_auto/11a6b4_a44585055439477589dabad9f9aefda6~mv2.jpg"
-        alt="まちかどコンサートの様子 4"
-        loading="lazy"
-      />
+      <img src="images/machikado/machikado_4.png" alt="まちかどコンサートの様子 4" loading="lazy" />
     </div>
-
     <div class="photo-item photo-5" data-index="4">
-      <img
-        src="https://static.wixstatic.com/media/11a6b4_e8c15af06b244c2c971bbd63cd3a1775~mv2.jpg/v1/fill/w_441,h_588,q_90,enc_avif,quality_auto/11a6b4_e8c15af06b244c2c971bbd63cd3a1775~mv2.jpg"
-        alt="まちかどコンサートの様子 5"
-        loading="lazy"
-      />
+      <img src="images/machikado/machikado_5.png" alt="まちかどコンサートの様子 5" loading="lazy" />
     </div>
-
     <div class="photo-item photo-6" data-index="5">
-      <img
-        src="https://static.wixstatic.com/media/11a6b4_cc6248c03fc141b4b0c8e707cb3ecac0~mv2.jpg/v1/fill/w_441,h_588,fp_0.49_0.35,q_90,enc_avif,quality_auto/11a6b4_cc6248c03fc141b4b0c8e707cb3ecac0~mv2.jpg"
-        alt="まちかどコンサートの様子 6"
-        loading="lazy"
-      />
+      <img src="images/machikado/machikado_6.png" alt="まちかどコンサートの様子 6" loading="lazy" />
     </div>
-
-  </div><!-- /.gallery-grid -->
+  </div>
 </section>
 
-<!-- ===== FOOTER NOTE ===== -->
-<div class="page-footer-note">
-  <p>お問い合わせ</p>
-  <a href="mailto:furusato.ongakukai.2018@gmail.com">furusato.ongakukai.2018@gmail.com</a>
-</div>
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-logo">ふるさと音楽会</div>
+  <div class="footer-copy">
+    © 2026 ふるさと音楽会 All Rights Reserved.<br>
+    <a href="privacy.html" style="color:rgba(255,255,255,0.4);text-decoration:none;">プライバシーポリシー</a>
+  </div>
+</footer>
 
 <!-- ===== LIGHTBOX ===== -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="写真を拡大表示">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title">
   <div class="lightbox__inner">
     <button class="lightbox__close" id="lb-close">CLOSE ✕</button>
     <img class="lightbox__img" id="lb-img" src="" alt="" />
@@ -494,9 +424,11 @@
   <button class="lightbox__next" id="lb-next" aria-label="次の写真">&#8594;</button>
 </div>
 
+<script src="js/config.js"></script>
+<script src="js/ui.js"></script>
 <script>
   /* ===== Scroll Reveal ===== */
-  const revealTargets = document.querySelectorAll('.photo-item, .lead');
+  const revealTargets = document.querySelectorAll('.photo-item, #lead');
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -508,6 +440,7 @@
   revealTargets.forEach(el => io.observe(el));
 
   /* ===== Lightbox ===== */
+  // 画像情報をDOMから動的に取得（二重管理なし）
   const items   = Array.from(document.querySelectorAll('.photo-item'));
   const lb      = document.getElementById('lightbox');
   const lbImg   = document.getElementById('lb-img');
@@ -527,19 +460,12 @@
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
-
   function closeLightbox() {
     lb.classList.remove('open');
     document.body.style.overflow = '';
   }
-
-  function showNext() {
-    openLightbox((current + 1) % imgs.length);
-  }
-
-  function showPrev() {
-    openLightbox((current - 1 + imgs.length) % imgs.length);
-  }
+  function showNext() { openLightbox((current + 1) % imgs.length); }
+  function showPrev() { openLightbox((current - 1 + imgs.length) % imgs.length); }
 
   items.forEach((item, i) => item.addEventListener('click', () => openLightbox(i)));
   document.getElementById('lb-close').addEventListener('click', closeLightbox);
@@ -547,15 +473,13 @@
   document.getElementById('lb-prev').addEventListener('click', showPrev);
   lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
 
-  /* キーボード操作 */
   document.addEventListener('keydown', e => {
     if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape')      closeLightbox();
-    if (e.key === 'ArrowRight')  showNext();
-    if (e.key === 'ArrowLeft')   showPrev();
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowRight') showNext();
+    if (e.key === 'ArrowLeft')  showPrev();
   });
 
-  /* スワイプ対応 */
   let touchStartX = null;
   lb.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
   lb.addEventListener('touchend', e => {
