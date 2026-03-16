@@ -1,71 +1,463 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>プライバシーポリシー | ふるさと音楽会</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>プライバシーポリシー | ふるさと音楽会</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+JP:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== CSS Variables — 共通 ===== */
+    :root {
+      --bg:         #faf8f4;
+      --bg-alt:     #f2ede4;
+      --ink:        #1c1610;
+      --ink-muted:  #5a4f42;
+      --gold:       #b89a5a;
+      --gold-light: #d4bc82;
+      --gold-pale:  #ede3cc;
+      --line:       rgba(184,154,90,0.28);
+      --ff-serif:   'Noto Serif JP', 'YuMincho', serif;
+      --ff-latin:   'Cormorant Garamond', 'Georgia', serif;
+      --ease:       cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--ff-serif);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.9;
+      overflow-x: hidden;
+    }
+
+    /* ===== Page Header（共通）===== */
+    .page-header {
+      position: relative;
+      padding: 80px 24px 64px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(184,154,90,0.09) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .page-header__deco {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--ff-latin);
+      font-size: clamp(60px, 14vw, 160px);
+      font-style: italic;
+      font-weight: 300;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(184,154,90,0.09);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+    .page-header__label {
+      font-family: var(--ff-latin);
+      font-size: 11px;
+      letter-spacing: 0.30em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .page-header__title {
+      font-size: clamp(24px, 4vw, 40px);
+      font-weight: 300;
+      letter-spacing: 0.20em;
+      line-height: 1.4;
+      position: relative;
+      color: var(--ink);
+    }
+    .page-header__rule {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 24px auto 0;
+      width: fit-content;
+      position: relative;
+    }
+    .page-header__rule::before,
+    .page-header__rule::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.6;
+    }
+    .page-header__rule-icon {
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--gold);
+      transform: rotate(45deg);
+    }
+
+    /* ===== Main Layout ===== */
+    .section {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    /* ===== Divider（共通）===== */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+    .section-divider__icon {
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ===== Intro Text ===== */
+    .intro-text {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--ink-muted);
+      letter-spacing: 0.07em;
+      line-height: 2.2;
+      margin-bottom: 56px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--line);
+
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .intro-text.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== Article Section ===== */
+    .policy-article {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .policy-article.visible { opacity: 1; transform: translateY(0); }
+
+    /* 各セクション間のスペース */
+    .policy-section {
+      margin-bottom: 48px;
+    }
+    .policy-section:last-child { margin-bottom: 0; }
+
+    /* セクション番号＋見出し */
+    .policy-section__heading {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .policy-section__num {
+      font-family: var(--ff-latin);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .policy-section__title {
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* 見出し下のアクセントライン */
+    .policy-section__accent {
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.55;
+      margin-bottom: 16px;
+      margin-left: 44px;
+    }
+
+    /* 本文 */
+    .policy-section__body {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--ink-muted);
+      letter-spacing: 0.06em;
+      line-height: 2.15;
+      padding-left: 44px;
+    }
+
+    /* リスト */
+    .policy-section__list {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0 0 44px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .policy-section__list li {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--ink-muted);
+      letter-spacing: 0.06em;
+      line-height: 1.85;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .policy-section__list li::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border: 1px solid var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+      margin-top: 2px;
+      opacity: 0.8;
+    }
+
+    /* セクション間の区切り線 */
+    .policy-section + .policy-section {
+      padding-top: 40px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* ===== Contact Block ===== */
+    .contact-block {
+      margin-top: 64px;
+      padding: 32px 36px;
+      background: white;
+      border: 1px solid rgba(184,154,90,0.20);
+      border-radius: 2px;
+      box-shadow: 0 2px 20px rgba(28,22,16,0.04);
+
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s var(--ease) 0.1s, transform 0.7s var(--ease) 0.1s;
+    }
+    .contact-block.visible { opacity: 1; transform: translateY(0); }
+
+    .contact-block__label {
+      font-family: var(--ff-latin);
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .contact-block__org {
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .contact-block__divider {
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.5;
+      margin: 12px 0;
+    }
+
+    .contact-block__email {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--ink-muted);
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .contact-block__email-icon {
+      width: 4px;
+      height: 4px;
+      border: 1px solid var(--gold);
+      transform: rotate(45deg);
+      opacity: 0.8;
+      flex-shrink: 0;
+    }
+
+    .contact-block a {
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    .contact-block a:hover { border-color: var(--gold); }
+
+    /* ===== Footer note ===== */
+    .page-footer-note {
+      text-align: center;
+      padding: 40px 24px 80px;
+      border-top: 1px solid var(--line);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .page-footer-note p {
+      font-size: 12px;
+      color: var(--ink-muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ===== Mobile ===== */
+    @media (max-width: 600px) {
+      .policy-section__body,
+      .policy-section__list {
+        padding-left: 0;
+        margin-left: 0;
+      }
+      .policy-section__accent { margin-left: 0; }
+      .contact-block { padding: 24px 20px; }
+    }
+  </style>
+</head>
 <body>
 
-<section class="section section-alt" style="max-width:800px;margin:auto">
+<!-- ===== PAGE HEADER ===== -->
+<header class="page-header">
+  <div class="page-header__deco">Privacy</div>
+  <p class="page-header__label">Privacy Policy</p>
+  <h1 class="page-header__title">プライバシーポリシー</h1>
+  <div class="page-header__rule">
+    <div class="page-header__rule-icon"></div>
+  </div>
+</header>
 
-<h1 class="section-title">プライバシーポリシー</h1>
+<!-- ===== MAIN ===== -->
+<main class="section">
 
-<p>
-ふるさと音楽会（以下「当団体」）は、本ウェブサイトにおいて取得する個人情報の取り扱いについて、
-以下の通りプライバシーポリシーを定めます。
-</p>
+  <div class="section-divider"><div class="section-divider__icon"></div></div>
 
-<h2>1. 個人情報の利用目的</h2>
-<p>
-お問い合わせなどで取得した個人情報は、以下の目的のために利用します。
-</p>
+  <!-- イントロ -->
+  <p class="intro-text" id="intro">
+    ふるさと音楽会（以下「当団体」）は、本ウェブサイトにおいて取得する個人情報の取り扱いについて、以下の通りプライバシーポリシーを定めます。
+  </p>
 
-<ul>
-<li>お問い合わせへの回答</li>
-<li>公演情報のご案内</li>
-<li>サービス改善のための分析</li>
-</ul>
+  <!-- ポリシー本文 -->
+  <article class="policy-article" id="policy">
 
-<h2>2. 個人情報の第三者提供</h2>
+    <!-- 1. 個人情報の利用目的 -->
+    <div class="policy-section">
+      <div class="policy-section__heading">
+        <span class="policy-section__num">01</span>
+        <h2 class="policy-section__title">個人情報の利用目的</h2>
+      </div>
+      <div class="policy-section__accent"></div>
+      <p class="policy-section__body">
+        お問い合わせなどで取得した個人情報は、以下の目的のために利用します。
+      </p>
+      <ul class="policy-section__list">
+        <li>お問い合わせへの回答</li>
+        <li>公演情報のご案内</li>
+        <li>サービス改善のための分析</li>
+      </ul>
+    </div>
 
-<p>
-取得した個人情報を、法令に基づく場合を除き第三者へ提供することはありません。
-</p>
+    <!-- 2. 個人情報の第三者提供 -->
+    <div class="policy-section">
+      <div class="policy-section__heading">
+        <span class="policy-section__num">02</span>
+        <h2 class="policy-section__title">個人情報の第三者提供</h2>
+      </div>
+      <div class="policy-section__accent"></div>
+      <p class="policy-section__body">
+        取得した個人情報を、法令に基づく場合を除き第三者へ提供することはありません。
+      </p>
+    </div>
 
-<h2>3. アクセス解析について</h2>
+    <!-- 3. アクセス解析について -->
+    <div class="policy-section">
+      <div class="policy-section__heading">
+        <span class="policy-section__num">03</span>
+        <h2 class="policy-section__title">アクセス解析について</h2>
+      </div>
+      <div class="policy-section__accent"></div>
+      <p class="policy-section__body">
+        当サイトでは、サービス向上のためアクセス解析ツールを利用する場合があります。これにより Cookie を利用して匿名のトラフィックデータを収集することがあります。
+      </p>
+    </div>
 
-<p>
-当サイトでは、サービス向上のためアクセス解析ツールを利用する場合があります。
-これによりCookieを利用して匿名のトラフィックデータを収集することがあります。
-</p>
+    <!-- 4. 外部サービスについて -->
+    <div class="policy-section">
+      <div class="policy-section__heading">
+        <span class="policy-section__num">04</span>
+        <h2 class="policy-section__title">外部サービスについて</h2>
+      </div>
+      <div class="policy-section__accent"></div>
+      <p class="policy-section__body">
+        当サイトでは以下の外部サービスを利用する場合があります。
+      </p>
+      <ul class="policy-section__list">
+        <li>Instagram</li>
+        <li>YouTube</li>
+        <li>Google サービス</li>
+      </ul>
+    </div>
 
-<h2>4. 外部サービスについて</h2>
+    <!-- お問い合わせカード -->
+    <div class="contact-block" id="contact-block">
+      <p class="contact-block__label">Contact</p>
+      <p class="contact-block__org">ふるさと音楽会</p>
+      <div class="contact-block__divider"></div>
+      <div class="contact-block__email">
+        <span class="contact-block__email-icon"></span>
+        <span>Email：<a href="mailto:furusato.ongakukai.2018@gmail.com">furusato.ongakukai.2018@gmail.com</a></span>
+      </div>
+    </div>
 
-<p>
-当サイトでは以下の外部サービスを利用する場合があります。
-</p>
+  </article>
 
-<ul>
-<li>Instagram</li>
-<li>YouTube</li>
-<li>Googleサービス</li>
-</ul>
+</main>
 
-<h2>5. お問い合わせ</h2>
+<!-- ===== FOOTER NOTE ===== -->
+<div class="page-footer-note">
+  <p>©2024 ふるさと音楽会</p>
+</div>
 
-<p>
-個人情報に関するお問い合わせは下記までお願いいたします。
-</p>
-
-<p>
-ふるさと音楽会<br>
-Email: furusato.ongakukai.2018@gmail.com
-</p>
-
-</section>
+<script>
+  const targets = document.querySelectorAll('#intro, #policy, #contact-block');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  targets.forEach(el => io.observe(el));
+</script>
 
 </body>
 </html>
