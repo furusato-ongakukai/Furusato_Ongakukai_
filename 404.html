@@ -1,25 +1,57 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ページが見つかりません</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ページが見つかりません | ふるさと音楽会</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<section class="section section-alt" style="text-align:center">
+<!-- ============ NAV ============ -->
+<nav id="main-nav" class="visible scrolled">
+  <a class="nav-logo-wrap" href="index.html">
+    <img src="images/logo_transparent.png" class="nav-logo-img" alt="ふるさと音楽会ロゴ">
+    <span class="nav-logo-text">ふるさと音楽会</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">ホーム</a></li>
+    <li><a href="index.html#about">ABOUT</a></li>
+    <li class="dropdown">
+      <a href="#">活動</a>
+      <ul class="dropdown-menu">
+        <li><a href="teiki.html">定期公演</a></li>
+        <li><a href="machikado.html">まちかどコンサート</a></li>
+        <li><a href="school.html">音楽鑑賞教室</a></li>
+        <li><a href="lesson.html">音楽教育</a></li>
+      </ul>
+    </li>
+    <li><a href="index.html#members">メンバー</a></li>
+    <li><a href="index.html#contact">お問い合わせ</a></li>
+  </ul>
+</nav>
 
-<h1 class="section-title">404</h1>
-
-<p>ページが見つかりませんでした。</p>
-
-<p>
-<a href="/">トップページへ戻る</a>
-</p>
-
+<!-- ============ 404 CONTENT ============ -->
+<section class="section section-alt" style="text-align:center; padding-top: 8rem;">
+  <div class="section-label">Error</div>
+  <h1 class="section-title">404</h1>
+  <div class="divider"></div>
+  <p style="margin-bottom: 0.5rem;">お探しのページが見つかりませんでした。</p>
+  <p style="margin-bottom: 2rem; color: var(--text-light); font-size: 0.9rem;">
+    URLが変更されたか、ページが削除された可能性があります。
+  </p>
+  <a href="index.html" class="landing-button">トップページへ戻る</a>
 </section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-logo">ふるさと音楽会</div>
+  <div class="footer-copy">
+    © 2026 ふるさと音楽会 All Rights Reserved.<br>
+    <a href="privacy.html">プライバシーポリシー</a>
+  </div>
+</footer>
 
 </body>
 </html>
