@@ -2,12 +2,28 @@
 
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-<url>
-<loc>https://example.com/</loc>
-</url>
+  <url>
+    <loc>https://furusato-ongakukai.com/</loc>
+  </url>
 
-<url>
-<loc>https://example.com/privacy.html</loc>
-</url>
+  <url>
+    <loc>https://furusato-ongakukai.com/privacy.html</loc>
+  </url>
+
+  <url>
+    <loc>https://furusato-ongakukai.com/lesson.html</loc>
+  </url>
+
+  <url>
+    <loc>https://furusato-ongakukai.com/school.html</loc>
+  </url>
+
+  <url>
+    <loc>https://furusato-ongakukai.com/machikado.html</loc>
+  </url>
+
+  <url>
+    <loc>https://furusato-ongakukai.com/teiki.html</loc>
+  </url>
 
 </urlset>
