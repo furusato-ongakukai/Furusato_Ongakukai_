@@ -1,5 +1,5 @@
 // ============ CMS ============
-const CMS_URL = "https://script.google.com/macros/s/AKfycbxLP3JZpcW7ON7ay5QO2tzoZmI1Vmi9CsqcUeBnf6rSonl6r2ZqP6gJQTglm5abJmnk/exec";
+const CMS_URL = SITE_CONFIG.gasUrl; // URLは js/config.js で管理
 
 // XSS対策：文字列をHTMLエスケープする
 function escapeHtml(str) {

@@ -1,7 +1,7 @@
 // ============ TEIKI CONCERTS ============
 // CMS_URL は cms.js で定義済みのため、teiki.html 専用ページでのみ
 // このファイルが読み込まれる。cms.js と同時読み込みにならないよう注意。
-const TEIKI_CMS_URL = "https://script.google.com/macros/s/AKfycbxLP3JZpcW7ON7ay5QO2tzoZmI1Vmi9CsqcUeBnf6rSonl6r2ZqP6gJQTglm5abJmnk/exec";
+const TEIKI_CMS_URL = SITE_CONFIG.gasUrl; // URLは js/config.js で管理
 
 // XSS対策
 function teikiEscape(str) {
